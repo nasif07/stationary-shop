@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Banner = () => {
   return (
     <section
@@ -18,12 +20,12 @@ const Banner = () => {
           products for school, work, and creativity at affordable prices.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <button className="px-6 py-3 bg-white hover:bg-transparent border hover:border-white hover:text-white rounded text-black font-semibold transition">
+          {/* <button className="px-6 py-3 bg-white hover:bg-transparent border hover:border-white hover:text-white rounded text-black font-semibold transition">
             Shop Now
-          </button>
-          <button className="px-6 py-3 border border-white hover:bg-white hover:text-black rounded text-white font-semibold transition">
+          </button> */}
+          <Link to='/products' className="px-6 py-3 border border-white hover:bg-white hover:text-black rounded text-white font-semibold transition">
             Browse Collection
-          </button>
+          </Link>
         </div>
       </div>
     </section>

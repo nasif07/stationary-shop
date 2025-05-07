@@ -1,97 +1,77 @@
 import { Request, Response } from 'express';
 import { productServices } from './product.service';
 import { IProduct } from './product.interface';
+import catchAsync from '../../../utils/catchAsync';
+import sendResponse from '../../../utils/sendResponse';
+import { StatusCodes } from 'http-status-codes';
 
-const addNewProduct = async (req: Request, res: Response) => {
-  try {
-    const product: IProduct = req.body;
-    const result = await productServices.addProductIntoDB(product);
+const addNewProduct = catchAsync(async (req: Request, res: Response) => {
+  const product: IProduct = req.body;
+  const result = await productServices.addProductIntoDB(product);
 
-    res.status(200).json({
-      success: true,
-      message: 'Product added successfully',
-      data: result,
-    });
-  } catch (error) {
-    console.log('Error in addNewProduct:', error);
-  }
-};
+  sendResponse(res, {
+    statusCode: StatusCodes.CREATED,
+    message: 'Product created successfully',
+    data: result,
+  });
+});
 
-const getAllProducts = async (req: Request, res: Response) => {
-  try {
-    const result = await productServices.getAllProductsFromDB();
-    console.log(result);
+const getAllProducts = catchAsync(async (req: Request, res: Response) => {
+  const result = await productServices.getAllProductsFromDB();
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Products fetched successfully',
+    data: result,
+  });
+});
 
-    res.status(200).json({
-      success: true,
-      message: 'Products fetched successfully',
-      data: result,
-    });
-  } catch (error) {
-    console.log('Error in getAllProducts:', error);
-  }
-};
+const getProductById = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await productServices.getProductByIdFromDB(id);
 
-const getProductById = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-    const result = await productServices.getProductByIdFromDB(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Product fetched successfully by id',
+    data: result,
+  });
+});
 
-    res.status(200).json({
-      success: true,
-      message: 'Product fetched successfully by id',
-      data: result,
-    });
-  } catch (error) {
-    console.log('Error in getProductById:', error);
-  }
-};
+const updateProductById = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const updatedData = req.body;
+  const result = await productServices.updateProductIntoDB(id, updatedData);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Product updated successfully',
+    data: result,
+  });
+});
 
-const updateProductById = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const id = req.params.id;
-    const updatedData = req.body;
-    const result = await productServices.updateProductIntoDB(id, updatedData);
+const updateProduct = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const updatedData = req.body;
+  const result = await productServices.updateProductIntoDB(id, updatedData);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Product updated successfully',
+    data: result,
+  });
+});
 
-    if (!result) {
-      return res.status(404).json({
-        success: false,
-        message: 'Product could not be updated',
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Product fetched successfully by id',
-      data: result,
-    });
-  } catch (error) {
-    console.log('Error in updating product:', error);
-  }
-};
-const updateProduct = async (req: Request, res: Response): Promise<any | void> => {
-  try {
-    const id = req.params.id;
-    const updatedData = req.body;
-
-    const result = await productServices.updateProductIntoDB(id, updatedData);
-
-    if (!result) {
-      return res.status(404).json({
-        success: false,
-        message: 'Product not found',
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: 'Product updated successfully',
-      data: result,
-    });
-  } catch (error) {
-    console.log('Error in updateProduct:', error);
-  }
-};
+const deleteProduct = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await productServices.deleteProductFromDB(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Product deleted successfully',
+    data: result,
+  });
+});
 
 export const productControllers = {
   addNewProduct,
@@ -99,4 +79,5 @@ export const productControllers = {
   getProductById,
   updateProduct,
   updateProductById,
+  deleteProduct,
 };

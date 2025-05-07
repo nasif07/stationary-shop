@@ -11,6 +11,9 @@ export default {
   db_url: process.env.MONGODB_URI,
   bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
   client_url: process.env.CLIENT_URL,
+  server_url: process.env.SERVER_URL,
   jwt_secret: process.env.JWT_SECRET,
   jwt_expires_in: process.env.JWT_EXPIRES_IN,
+  ssl_store_id: process.env.PAYMENT_STORE_ID,
+  ssl_store_password: process.env.PAYMENT_STORE_PASSWORD,
 };

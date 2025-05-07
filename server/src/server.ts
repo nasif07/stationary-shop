@@ -1,9 +1,9 @@
+/* eslint-disable no-console */
 import mongoose from 'mongoose';
 import config from './app/config';
 import app from './app';
 
 async function main() {
-  console.log('Connecting to MongoDB...');
   try {
     await mongoose.connect(config.db_url as string);
     console.log('Connected to MongoDB');

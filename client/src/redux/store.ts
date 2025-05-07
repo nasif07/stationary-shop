@@ -1,41 +1,42 @@
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./features/auth/authSlice";
-import { baseApi } from "./api/baseApi";
-import {
-  persistReducer,
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
+import authReducer from "./features/auth/authSlice";
+import cartReducer from "./features/cart/cartSlice";
+import { baseApi } from "./api/baseApi";
+
+// 1️⃣ Combined Reducers
+const rootReducer = combineReducers({
+  [baseApi.reducerPath]: baseApi.reducer,
+  auth: authReducer,
+  cart: cartReducer,
+});
+
+// 2️⃣ Persist Config
 const persistConfig = {
-  key: "auth",
+  key: "root",
   storage,
+  whitelist: ["auth", "cart"], // only these slices will be persisted
 };
 
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+// 3️⃣ Create Persisted Reducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+// 4️⃣ Configure Store
 export const store = configureStore({
-  reducer: {
-    [baseApi.reducerPath]: baseApi.reducer,
-    auth: persistedAuthReducer,
-  },
-  middleware: (getDefaultMiddlewares) =>
-    getDefaultMiddlewares({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PURGE, REGISTER, PERSIST],
-      }
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
     }).concat(baseApi.middleware),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// 5️⃣ Types
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
+// 6️⃣ Persistor
 export const persistor = persistStore(store);

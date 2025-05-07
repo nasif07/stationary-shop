@@ -2,6 +2,18 @@ import { model, Schema } from 'mongoose';
 import { IUser } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
+import { IShippingAddress } from '../order/order.interface';
+
+// Sub-schema for Shipping Address
+export const ShippingAddressSchema = new Schema<IShippingAddress>(
+  {
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    postalCode: { type: String, required: true },
+    country: { type: String, required: true },
+  },
+  { _id: false },
+);
 
 const userSchema = new Schema<IUser>({
   name: {
@@ -41,6 +53,9 @@ const userSchema = new Schema<IUser>({
     enum: ['active', 'inactive'],
     required: true,
     default: 'active',
+  },
+  shippingAddress: {
+    type: ShippingAddressSchema,
   },
 });
 

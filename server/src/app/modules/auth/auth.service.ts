@@ -1,3 +1,4 @@
+import config from '../../config';
 import { IUser } from '../user/user.interface';
 import User from '../user/user.model';
 import { ILoginUser } from './auth.interface';
@@ -26,14 +27,23 @@ const login = async (payload: ILoginUser) => {
     throw new Error('password does not match');
   }
 
-  const token = jwt.sign({ email: user?.email, role: user?.role }, 'secret', {
-    expiresIn: '1d',
-  });
+  const token = jwt.sign(
+    { email: user?.email, role: user?.role, id: user?._id },
+    `${config.jwt_secret}`,
+    {
+      expiresIn: '1d',
+    },
+  );
 
   const verifiedUser = {
+    id: user?._id,
     name: user?.name,
+    age: user?.age,
     email: user?.email,
+    photo: user?.photo,
     role: user?.role,
+    userStatus: user?.userStatus,
+    shippingAddress: user?.shippingAddress,
   };
   return { token, verifiedUser };
 };

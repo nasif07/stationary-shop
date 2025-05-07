@@ -1,28 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export type TShippingAddress = {
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+};
+
 export type TAuthUser = {
+  id: string;
+  name: string;
+  age?: number;
   email: string;
-  role: string;
-  iat: number;
-  exp: number;
-}
+  photo?: string | null;
+  role: "user" | "admin";
+  userStatus: "active" | "inactive";
+  shippingAddress?: TShippingAddress;
+};
 
 type TAuthState = {
   user: null | TAuthUser;
   token: string | null;
-}
+};
 
 const initialState: TAuthState = {
   user: null,
   token: null,
-}
+};
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const {user, token} = action.payload;
+      const { user, token } = action.payload;
       state.user = user;
       state.token = token;
     },
@@ -31,8 +42,7 @@ const authSlice = createSlice({
       state.token = null;
     },
   },
-})
-
+});
 
 export const { setUser, logoutUser } = authSlice.actions;
 

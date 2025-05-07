@@ -9,12 +9,12 @@ const createAdmin = async (payload: IUser): Promise<IUser> => {
 };
 
 const getUser = async () => {
-  const result = await User.find();
+  const result = await User.find().select('-password');
   return result;
 };
 
 const getSingleUser = async (id: string) => {
-  const result = await User.findById(id);
+  const result = await User.findById(id).select('-password');
   return result;
 };
 

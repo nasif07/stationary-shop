@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
@@ -12,7 +13,7 @@ type Inputs = {
 const SignUp = () => {
   const { register, handleSubmit } = useForm<Inputs>();
   const navigate = useNavigate();
-  const [registerUser, { error }] = useRegisterMutation();
+  const [registerUser] = useRegisterMutation();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const toastId = toast.loading("Creating account...");
@@ -24,14 +25,18 @@ const SignUp = () => {
         password: data.password,
       };
       const res = await registerUser(userInfo).unwrap();
-      console.log(res);
+
+      if (!res?.success) {
+        toast.info(res?.message || "User already exists", { id: toastId });
+      }
+
       toast.success("Account created successfully!", { id: toastId });
       toast.info("Redirecting to login page");
       setTimeout(() => {
         navigate("/login");
       }, 2000);
-    } catch (err) {
-      toast.error("Something went wrong, please try again later.", {
+    } catch (err: any | unknown) {
+      toast.error(err.data.message || "Something went wrong", {
         id: toastId,
       });
       console.error("User registration error:", err);
