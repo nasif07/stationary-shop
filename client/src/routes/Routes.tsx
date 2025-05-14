@@ -23,6 +23,7 @@ import ViewOrdersPage from "@/pages/dashboard/order/ViewOrders";
 import ManageOrdersAlt from "@/pages/dashboard/order/ManageOrdersAlt";
 import CategoriesProduct from "@/pages/categoriesProduct/CategoriesProduct";
 import Contact from "@/pages/contact/Contact";
+import SubCategory from "@/pages/categoriesProduct/SubCategory";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/products/category/:productCategory",
         element: <CategoriesProduct/>,
+      },
+      {
+        path: "/products/category/:productCategory/:subCategory",
+        element: <SubCategory/>
       },
       {
         path: "/products/:productId",

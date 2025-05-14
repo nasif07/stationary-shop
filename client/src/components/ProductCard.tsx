@@ -9,11 +9,10 @@ export default function ProductCard({ product }: { product: productDto }) {
       {product !== undefined && (
         <Link
           to={`/products/${product._id}`}
-          className="relative flex flex-col h-full overflow-hidden bg-white rounded"
-        >
+          className="relative flex flex-col h-full overflow-hidden bg-white rounded">
           <img
             src={`${product.images[0]}`}
-            className="object-cover w-full h-64"
+            className=" w-full h-72"
             alt={product.name}
           />
 
@@ -30,7 +29,9 @@ export default function ProductCard({ product }: { product: productDto }) {
               {/* Any extra icons you may want to add */}
             </div>
 
-            <h3 className="text-xl font-semibold text-gray-800">{product.name}</h3>
+            <h3 className="text-xl font-semibold text-gray-800">
+              {product.name}
+            </h3>
             <p>
               By <span className="text-teal-700">{product.brand}</span>
             </p>
@@ -42,8 +43,7 @@ export default function ProductCard({ product }: { product: productDto }) {
                 {product?.tags?.map((tag, index) => (
                   <span
                     key={index}
-                    className="inline-block px-1 bg-gray-200 text-sm rounded py-1 mr-2 mb-2"
-                  >
+                    className="inline-block px-1 bg-gray-200 text-sm rounded py-1 mr-2 mb-2">
                     {tag}
                   </span>
                 ))}
@@ -56,8 +56,10 @@ export default function ProductCard({ product }: { product: productDto }) {
             <div className="mt-2">
               {product.isOffer && (
                 <p className="text-sm text-gray-500 !line-through">
-                  <FormatTaka className="line-through" amount={product.oldPrice ?? 0} />
-                  
+                  <FormatTaka
+                    className="line-through"
+                    amount={product.oldPrice ?? 0}
+                  />
                 </p>
               )}
               <p className="text-xl font-semibold text-gray-900">
@@ -69,8 +71,7 @@ export default function ProductCard({ product }: { product: productDto }) {
             <p
               className={`mt-1 ${
                 product.stock > 0 ? "text-green-600" : "text-red-500"
-              }`}
-            >
+              }`}>
               {product.stock > 0
                 ? `In Stock (${product.stock})`
                 : "Out of Stock"}
@@ -81,8 +82,7 @@ export default function ProductCard({ product }: { product: productDto }) {
               <button
                 type="button"
                 aria-label="View Product Details"
-                className="inline-flex items-center font-semibold transition-colors duration-200 text-green-800 hover:underline cursor-pointer"
-              >
+                className="inline-flex items-center font-semibold transition-colors duration-200 text-green-800 hover:underline cursor-pointer">
                 View Details
               </button>
             </div>

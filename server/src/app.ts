@@ -11,7 +11,16 @@ const app: Application = express();
 
 // parser and other middlewares
 app.use(express.json());
-app.use(cors({ origin: 'https://stationary-shop-backend-three.vercel.app', credentials: true }));
+app.use(
+  cors({
+    origin: [
+      'https://stationary-shop-frontend-five.vercel.app',
+      'https://stationary-shop-frontend-borcumt3u-nasif07s-projects.vercel.app',
+      'http://localhost:5173',
+    ],
+    credentials: true,
+  }),
+);
 // dfd
 
 app.use('/api/v1/products', ProductRoutes);

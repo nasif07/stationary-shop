@@ -79,14 +79,13 @@ const createOrder = catchAsync(async (req: Request, res: Response) => {
 const updatePayment = catchAsync(async (req: Request, res: Response) => {
   const transaction_id = req.params.id;
   const result = await orderServices.updatePaymentStatus(req.params.id as string);
-
-  if (result.modifiedCount > 0) {
+  if (result.result.modifiedCount === 1) {
     res.redirect(`${config.client_url}/orders/success/${transaction_id}`);
   } else {
     sendResponse(res, {
       success: false,
       statusCode: StatusCodes.NOT_FOUND,
-      message: 'Order not found',
+      message: 'Order not found killai no jani',
       data: null,
     });
   }

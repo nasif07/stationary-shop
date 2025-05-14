@@ -68,27 +68,27 @@ const Navbar = () => {
                 Products <ChevronDown size={16} />
               </div>
               {showMegaMenu && (
-                <div className="absolute top-full left-0 mt-2 bg-white shadow-lg p-6 grid grid-cols-4 gap-8 z-50 w-[800px]">
+                <div className="absolute top-5 left-0 mt-2 bg-white shadow-lg p-6 grid grid-cols-4 gap-8 z-50 w-[800px]">
                   <div>
                     <h4 className="font-semibold mb-2">Stationery</h4>
                     <ul className="space-y-1 text-sm">
                       <li>
-                        <NavLink to="/category/stationery/pens-pencils">
+                        <NavLink to="/products/category/stationery/pens-pencils">
                           Pens & Pencils
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/stationery/notebooks">
+                        <NavLink to="/products/category/stationery/notebooks">
                           Notebooks
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/stationery/erasers-sharpeners">
+                        <NavLink to="/products/category/stationery/erasers-sharpeners">
                           Erasers & Sharpeners
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/stationery/rulers-scales">
+                        <NavLink to="/products/category/stationery/rulers-scales">
                           Rulers & Scales
                         </NavLink>
                       </li>
@@ -98,22 +98,22 @@ const Navbar = () => {
                     <h4 className="font-semibold mb-2">Art Supplies</h4>
                     <ul className="space-y-1 text-sm">
                       <li>
-                        <NavLink to="/category/art/paints-brushes">
+                        <NavLink to="/products/category/art/paints-brushes">
                           Paints & Brushes
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/art/sketchbooks">
+                        <NavLink to="/products/category/art/sketchbooks">
                           Sketchbooks
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/art/canvas-paper">
+                        <NavLink to="/products/category/art/canvas-paper">
                           Canvas & Paper
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/art/acrylic-colors">
+                        <NavLink to="/products/category/art/acrylic-colors">
                           Acrylic Colors
                         </NavLink>
                       </li>
@@ -123,22 +123,22 @@ const Navbar = () => {
                     <h4 className="font-semibold mb-2">Office Supplies</h4>
                     <ul className="space-y-1 text-sm">
                       <li>
-                        <NavLink to="/category/office/files-folders">
+                        <NavLink to="/products/category/office/files-folders">
                           Files & Folders
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/office/staplers">
+                        <NavLink to="/products/category/office/staplers">
                           Staplers
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/office/desk-organizers">
+                        <NavLink to="/products/category/office/desk-organizers">
                           Desk Organizers
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/office/whiteboards">
+                        <NavLink to="/products/category/office/whiteboards">
                           Whiteboards
                         </NavLink>
                       </li>
@@ -148,22 +148,22 @@ const Navbar = () => {
                     <h4 className="font-semibold mb-2">School Essentials</h4>
                     <ul className="space-y-1 text-sm">
                       <li>
-                        <NavLink to="/category/school/school-bags">
+                        <NavLink to="/products/category/school/school-bags">
                           School Bags
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/school/lunch-boxes">
+                        <NavLink to="/products/category/school/lunch-boxes">
                           Lunch Boxes
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/school/water-bottles">
+                        <NavLink to="/products/category/school/water-bottles">
                           Water Bottles
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/category/school/geometry-sets">
+                        <NavLink to="/products/category/school/geometry-sets">
                           Geometry Sets
                         </NavLink>
                       </li>

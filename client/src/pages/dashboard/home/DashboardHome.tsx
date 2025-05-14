@@ -1,9 +1,15 @@
+import { useAppSelector } from "@/redux/hooks";
+import DashboardAdminHome from "./DashboardAdminHome";
+import DashboardUserHome from "./DashboardUserHome";
+
 const DashboardHome = () => {
-    return (
-        <div>
-            Dashboard
-        </div>
-    );
+  const { user } = useAppSelector((state) => state.auth);
+
+  if (user?.role === "admin") {
+    return <DashboardAdminHome />;
+  }
+
+  return <DashboardUserHome />;
 };
 
 export default DashboardHome;

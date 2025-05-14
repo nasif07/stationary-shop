@@ -174,8 +174,7 @@ export default function UserProfile({ id, user }: Props) {
             <Button
               variant="outline"
               size="icon"
-              onClick={() => setIsEditing(true)}
-            >
+              onClick={() => setIsEditing(true)}>
               <Edit className="h-4 w-4" />
               <span className="sr-only">Edit profile</span>
             </Button>
@@ -185,17 +184,17 @@ export default function UserProfile({ id, user }: Props) {
           {!isEditing ? (
             <div className="space-y-6">
               <div className="flex items-center space-x-4">
-                <Avatar className="h-20 w-20">
+                <Avatar className="h-20 w-20 outline cursor-pointer">
                   <AvatarImage
-                    src={userData?.photo || "/placeholder.svg"}
-                    alt={userData?.name}
+                    src={finalUser?.photo || "/placeholder.svg"}
+                    alt={finalUser?.name}
                   />
-                  <AvatarFallback>
-                    {/* {userData.name
+                  <AvatarFallback className="font-semibold text-2xl">
+                    {finalUser.name
                       .split(" ")
-                      .map((n) => n[0])
-                      .join("")} */}
-                    {userData.name}
+                      .map((n: string) => n[0])
+                      .join("")}
+                    {/* {finalUser.name} */}
                   </AvatarFallback>
                 </Avatar>
                 <div>
@@ -204,8 +203,7 @@ export default function UserProfile({ id, user }: Props) {
                     <Badge
                       variant={
                         userData.role === "admin" ? "default" : "outline"
-                      }
-                    >
+                      }>
                       {userData.role}
                     </Badge>
                   </div>
@@ -318,8 +316,7 @@ export default function UserProfile({ id, user }: Props) {
                       value={formData.role}
                       onValueChange={(value: string) =>
                         handleSelectChange("role", value)
-                      }
-                    >
+                      }>
                       <SelectTrigger disabled>
                         <SelectValue placeholder="Select Role" />
                       </SelectTrigger>
@@ -339,8 +336,7 @@ export default function UserProfile({ id, user }: Props) {
                           "userStatus",
                           value as "active" | "inactive"
                         )
-                      }
-                    >
+                      }>
                       <SelectTrigger>
                         <SelectValue placeholder="Select status" />
                       </SelectTrigger>
@@ -403,17 +399,11 @@ export default function UserProfile({ id, user }: Props) {
         </CardContent>
         {isEditing && (
           <CardFooter className="flex justify-end gap-2">
-            <Button
-              variant="outline"
-              onClick={handleCancel}
-            >
+            <Button variant="outline" onClick={handleCancel}>
               <X className="h-4 w-4 mr-2" />
               Cancel
             </Button>
-            <Button
-              onClick={handleSave}
-              disabled={isUpdateLoading}
-            >
+            <Button onClick={handleSave} disabled={isUpdateLoading}>
               <Save className="h-4 w-4 mr-2" />
               {isUpdateLoading ? "Saving..." : "Save Changes"}
             </Button>

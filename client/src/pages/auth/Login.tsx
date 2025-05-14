@@ -3,7 +3,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser, TAuthUser } from "@/redux/features/auth/authSlice";
-// import { verifyToken } from "@/utils/verifyToken";
 import { toast } from "sonner";
 import { verifyToken } from "@/utils/verifyToken";
 
@@ -15,45 +14,42 @@ type Inputs = {
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, setValue } = useForm<Inputs>();
 
   const [login] = useLoginMutation();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const toastId = toast.loading("Logging in...");
-
     try {
-      const userInfo = {
-        email: data.email,
-        password: data.password,
-      };
-      const res = await login(userInfo).unwrap();
+      const res = await login(data).unwrap();
       if (!res.success) {
-        toast.error(res.message || "Ummm! Maybe Invalid Credentials", {
-          id: toastId,
-        });
+        toast.error(res.message || "Invalid credentials", { id: toastId });
         return;
       }
+
       const isVerified = verifyToken(res.token);
       const user = res.data as TAuthUser;
       if (isVerified) {
         dispatch(setUser({ user: user, token: res.token }));
       }
 
-      toast.success("Logged in successful", { id: toastId });
-      if (user?.role === "admin") {
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any | unknown) {
-      toast.error( err?.data?.message ||  "Umm! Something went wrong", {
+      toast.success("Logged in successfully", { id: toastId });
+      navigate(user?.role === "admin" ? "/dashboard" : "/");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Something went wrong", {
         id: toastId,
       });
-      console.error("Login error:", err);
-      return;
     }
+  };
+
+  const fillDemoUser = () => {
+    setValue("email", "user@gmail.com");
+    setValue("password", "useruser");
+  };
+
+  const fillDemoAdmin = () => {
+    setValue("email", "admin1@gmail.com");
+    setValue("password", "adminadmin");
   };
 
   return (
@@ -68,11 +64,24 @@ const Login = () => {
             enjoy exclusive offers.
           </p>
         </div>
-        <div className="mt-12 max-w-lg mx-auto">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-5"
-          >
+
+        <div className="mt-6 flex justify-center gap-4">
+          <button
+            onClick={fillDemoUser}
+            type="button"
+            className="px-4 py-2 border border-black rounded text-black font-semibold">
+            Use Demo User
+          </button>
+          <button
+            onClick={fillDemoAdmin}
+            type="button"
+            className="px-4 py-2 border border-black rounded text-black font-semibold">
+            Use Demo Admin
+          </button>
+        </div>
+
+        <div className="mt-6 max-w-lg mx-auto">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
               <label className="font-medium">Email</label>
               <input
@@ -97,19 +106,16 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full px-4 py-2 text-white font-medium bg-black hover:bg-gray-700 active:bg-gray-700 rounded-lg duration-150"
-            >
+              className="w-full px-4 py-2 text-white font-medium bg-black hover:bg-gray-700 active:bg-gray-700 rounded-lg duration-150">
               Login
             </button>
 
-            <div>
-              <p className="w-full mt-2 font-medium">
-                Don't Have an Account?
-                <span className="font-bold text-blue-600">
-                  <Link to="/signup">Sign up</Link>
-                </span>
-              </p>
-            </div>
+            <p className="w-full mt-2 font-medium">
+              Don't Have an Account?{" "}
+              <span className="font-bold text-blue-600">
+                <Link to="/signup">Sign up</Link>
+              </span>
+            </p>
           </form>
         </div>
       </div>

@@ -15,7 +15,11 @@ const updatePaymentStatus = async (id: string) => {
     },
   );
 
-  return result;
+  if (result.modifiedCount === 0) {
+    return { success: false, message: 'Order not found or already paid', result };
+  }
+
+  return { success: true, message: 'Payment status updated', result };
 };
 
 const getOrders = async () => {

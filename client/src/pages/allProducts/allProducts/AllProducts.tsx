@@ -13,8 +13,6 @@ const AllProducts = () => {
     isError: isProductsError,
     isLoading: isProductsLoading,
   } = useGetProductsQuery({});
-  if (isProductsLoading) return <div>Loading...</div>;
-  if (isProductsError) return <div>Error loading products</div>;
   const products: productDto[] = data?.data || [];
 
   const filteredProducts = products?.filter((product) => {
@@ -56,10 +54,7 @@ const AllProducts = () => {
           className="p-2 border"
         >
           {uniqueCategories.map((cat) => (
-            <option
-              key={cat}
-              value={cat}
-            >
+            <option key={cat} value={cat}>
               {cat}
             </option>
           ))}
@@ -75,13 +70,29 @@ const AllProducts = () => {
         </label>
       </div>
 
-      {/* Results */}
-      {filteredProducts?.length === 0 ? (
+      {/* Loading Skeleton */}
+      {isProductsLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              key={index}
+              className="animate-pulse border rounded-lg p-4 space-y-4 shadow"
+            >
+              <div className="h-40 bg-gray-200 rounded"></div>
+              <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+              <div className="h-8 bg-gray-300 rounded w-full"></div>
+            </div>
+          ))}
+        </div>
+      ) : isProductsError ? (
+        <p className="text-red-500">Error loading products</p>
+      ) : filteredProducts?.length === 0 ? (
         <p className="text-gray-500">No products found.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {filteredProducts?.map((product: productDto, index:number) => (
-            <ProductCard product={product} key={index}></ProductCard>
+          {filteredProducts?.map((product: productDto, index: number) => (
+            <ProductCard product={product} key={index} />
           ))}
         </div>
       )}
